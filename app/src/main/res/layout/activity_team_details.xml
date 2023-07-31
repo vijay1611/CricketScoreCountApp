@@ -172,7 +172,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button1"
+            android:id="@+id/teamDetails_submitBtn"
             android:layout_below="@+id/card4"
             android:text="start"
             android:textAllCaps="true"
