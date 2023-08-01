@@ -15,8 +15,11 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
-            startActivity(Intent(this, ScoreBoardActivity::class.java))
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
         },3000)
+
+
     }
 
 }

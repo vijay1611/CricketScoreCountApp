@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue"
     tools:context=".ScoreBoardactivity.ScoreBoardActivity">
 
     <RelativeLayout
@@ -127,7 +126,7 @@
             android:scrollbars="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
-            tools:listitem="@layout/fff">
+            tools:listitem="@layout/ball_count">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -147,13 +146,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select score for this ball"
+                android:textColor="@color/green"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_gravity="center"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#1ab2ff"
+                android:background="#1B5E20"
                 android:gravity="center"
                 android:orientation="horizontal">
                 <TextView
@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:text="1"
                     android:id="@+id/score1"
-                    android:textColor="#1ab2ff"
+                    android:textColor="#1B5E20"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="24sp"
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:text="2"
                     android:id="@+id/score2"
-                    android:textColor="#1ab2ff"
+                    android:textColor="#1B5E20"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="24sp"
@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:text="3"
                     android:id="@+id/score3"
-                    android:textColor="#1ab2ff"
+                    android:textColor="#1B5E20"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="24sp"
@@ -197,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:text="4"
                     android:id="@+id/score4"
-                    android:textColor="#1ab2ff"
+                    android:textColor="#1B5E20"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="24sp"
@@ -209,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:text="5"
                     android:id="@+id/score5"
-                    android:textColor="#1ab2ff"
+                    android:textColor="#1B5E20"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="24sp"
@@ -221,7 +221,7 @@
                     android:layout_height="wrap_content"
                     android:text="6"
                     android:id="@+id/score6"
-                    android:textColor="#1ab2ff"
+                    android:textColor="#1B5E20"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="24sp"
@@ -234,7 +234,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1ab2ff"
+            android:background="#1B5E20"
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
@@ -242,7 +242,7 @@
                 android:layout_height="wrap_content"
                 android:text="WD"
                 android:id="@+id/wide"
-                android:textColor="#1ab2ff"
+                android:textColor="#1B5E20"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="24sp"
@@ -254,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:text="NB"
                 android:id="@+id/noBall"
-                android:textColor="#1ab2ff"
+                android:textColor="#1B5E20"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="24sp"
@@ -266,7 +266,7 @@
                 android:layout_height="wrap_content"
                 android:text="LB"
                 android:id="@+id/legByes"
-                android:textColor="#1ab2ff"
+                android:textColor="#1B5E20"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="24sp"
