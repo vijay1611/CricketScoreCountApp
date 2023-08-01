@@ -25,8 +25,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:name=".DashboardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ScoreBoardactivity.ScoreBoardActivity"
+            android:exported="true" >
+            <intent-filter>
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
