@@ -103,7 +103,7 @@
     <RelativeLayout
         android:id="@+id/sbRuns"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_below="@+id/card1"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
@@ -115,13 +115,17 @@
             android:id="@+id/txt1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This Over : "></TextView>
+            android:text="This Over : "
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="-232dp"
             android:layout_toRightOf="@id/txt1"
             android:orientation="horizontal"
             android:scrollbars="horizontal"
@@ -281,14 +285,41 @@
         </LinearLayout>
     </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Run"
-            android:layout_below="@+id/scorePicker"
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/scorePicker"
+       android:layout_marginTop="20dp"
+       android:layout_centerInParent="true"
+       android:gravity="center"
+       android:orientation="horizontal">
+
+       <androidx.appcompat.widget.AppCompatButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+          android:elevation="8dp"
            android:layout_centerInParent="true"
-            android:backgroundTint="@color/green"
-            android:textColor="@color/white"/>
+           android:backgroundTint="@color/green"
+           android:text="undo"
+           android:textColor="@color/white" />
+       <androidx.appcompat.widget.AppCompatButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
+           android:backgroundTint="@color/green"
+           android:text="swap"
+           android:elevation="8dp"
+           android:textColor="@color/white" />
+       <androidx.appcompat.widget.AppCompatButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
+           android:backgroundTint="@color/green"
+           android:elevation="8dp"
+           android:text="exit"
+           android:textColor="@color/white" />
+
+   </LinearLayout>
 
 
     

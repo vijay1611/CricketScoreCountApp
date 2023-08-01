@@ -9,12 +9,12 @@ import android.widget.Button
 class DashboardActivity : AppCompatActivity() {
 
     lateinit var btnNewGame: Button
-    @SuppressLint("MissingInflatedId")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        btnNewGame = findViewById(R.id.newGame)
+        btnNewGame = findViewById(R.id.newGame  )
 
         btnNewGame.setOnClickListener{
             startActivity(Intent(this,TeamDetailsActivity::class.java))
