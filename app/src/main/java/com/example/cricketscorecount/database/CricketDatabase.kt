@@ -10,7 +10,7 @@ import com.example.cricketscorecount.models.Team
 @Database(entities = arrayOf(Team::class),version=1, exportSchema = false)
 abstract class CricketDatabase : RoomDatabase(){
 
-    abstract fun getNoteDao(): CricketDao
+    abstract fun getCricketDao(): CricketDao
 
     companion object{
         @Volatile

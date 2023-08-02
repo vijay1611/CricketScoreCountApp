@@ -9,7 +9,6 @@ import android.widget.Button
 class DashboardActivity : AppCompatActivity() {
     private var exitDialogFragment: ExitDialogFragment? = null
     lateinit var btnNewGame: Button
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
