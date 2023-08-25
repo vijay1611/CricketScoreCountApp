@@ -62,17 +62,35 @@ class TeamDetailsActivity : AppCompatActivity() {
                 val battingTeam=findViewById<RadioButton>(binding.radioGroup1.checkedRadioButtonId).text.toString()
                 CoroutineScope(Dispatchers.IO).launch {
                     dao.insert(Team(team1 = team1, team2 = team2, overs = overs.toInt(), battingBy = battingTeam))
+
                     Log.e("*****","Inserted")
-                }.invokeOnCompletion {
-                    startActivity(Intent(this, ScoreBoardActivity::class.java))
                 }
+                    binding.teamname1.text.clear()
+                    binding.teamname2.text.clear()
+                    binding.overs.text.clear()
+                    binding.radioGroup1.clearCheck()
+                    val intent = Intent(this, ScoreBoardActivity::class.java)
+                    intent.putExtra("team1",team1)
+                    intent.putExtra("team2",team2)
+                    startActivity(intent)
+                finish()
+
+
+
+
+
+
+
 
 
 
             }
 
         }
+
     }
+
+
 
     fun CheckAllFields(): Boolean {
         if (firstTeamName!!.length() == 0) {

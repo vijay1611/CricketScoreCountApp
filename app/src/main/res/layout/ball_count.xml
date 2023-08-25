@@ -7,7 +7,7 @@
        android:layout_height="50dp"
        android:background="@drawable/score_circle"
        android:text="0"
-
+      android:id="@+id/scoreValue"
        android:gravity="center"
        android:layout_margin="10dp"
        android:textSize="20sp"/>
