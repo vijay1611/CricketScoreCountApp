@@ -124,12 +124,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="-232dp"
             android:layout_toRightOf="@id/txt1"
             android:orientation="horizontal"
             android:scrollbars="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
+            android:id="@+id/rvScoreBoard"
             tools:listitem="@layout/ball_count">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -295,6 +295,7 @@
        android:orientation="horizontal">
 
        <androidx.appcompat.widget.AppCompatButton
+           android:id="@+id/undo"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
           android:elevation="8dp"
@@ -303,6 +304,7 @@
            android:text="undo"
            android:textColor="@color/white" />
        <androidx.appcompat.widget.AppCompatButton
+           android:id="@+id/swap"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_centerInParent="true"
@@ -311,12 +313,13 @@
            android:elevation="8dp"
            android:textColor="@color/white" />
        <androidx.appcompat.widget.AppCompatButton
+           android:id="@+id/stop"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_centerInParent="true"
            android:backgroundTint="@color/green"
            android:elevation="8dp"
-           android:text="exit"
+           android:text="stop"
            android:textColor="@color/white" />
 
    </LinearLayout>

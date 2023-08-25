@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".history.HistoryActivity">
+
+   <LinearLayout
+       android:id="@+id/linearLayout2"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:weightSum="3"
+       android:background="@color/green"
+       android:padding="10dp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent">
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Team1"
+          android:gravity="center"
+          android:textColor="#FFF"
+          android:textStyle="bold"
+          android:textSize="20sp" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Team2"
+          android:gravity="center"
+          android:textColor="#FFF"
+          android:textStyle="bold"
+          android:textSize="20sp" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Overs"
+          android:gravity="center"
+          android:textColor="#FFF"
+          android:textStyle="bold"
+          android:textSize="20sp" />
+   </LinearLayout>
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/hisRecycle"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+       tools:ignore="MissingConstraints"
+       tools:itemCount="5"
+      />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
