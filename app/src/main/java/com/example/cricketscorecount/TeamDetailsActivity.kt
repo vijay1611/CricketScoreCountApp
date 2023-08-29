@@ -58,7 +58,7 @@ class TeamDetailsActivity : AppCompatActivity() {
             val battingBy = binding.radioGroup1
 
             isAllFieldsChecked = CheckAllFields()
-            if (isAllFieldsChecked) {
+           // if (isAllFieldsChecked) {
                 val battingTeam=findViewById<RadioButton>(binding.radioGroup1.checkedRadioButtonId).text.toString()
                 CoroutineScope(Dispatchers.IO).launch {
                     dao.insert(Team(team1 = team1, team2 = team2, overs = overs.toInt(), battingBy = battingTeam))
@@ -88,7 +88,7 @@ class TeamDetailsActivity : AppCompatActivity() {
 
         }
 
-    }
+    //}
 
 
 

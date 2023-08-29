@@ -29,7 +29,7 @@ class historyAdapter(private val mList : List<Team>): RecyclerView.Adapter<histo
     }
 
     override fun getItemCount(): Int {
-        return mList.size
+        return minOf( mList.size,5)
     }
 
 
