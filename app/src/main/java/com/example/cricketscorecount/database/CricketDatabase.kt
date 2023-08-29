@@ -5,12 +5,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.cricketscorecount.ScoreBoardactivity.DATABASE_NAME
+import com.example.cricketscorecount.models.Batsman
+import com.example.cricketscorecount.models.Runs
 import com.example.cricketscorecount.models.Team
 
-@Database(entities = arrayOf(Team::class),version=1, exportSchema = false)
+@Database(entities = [Batsman::class,Team::class,Runs::class],version=1, exportSchema = false)
 abstract class CricketDatabase : RoomDatabase(){
 
     abstract fun getCricketDao(): CricketDao
+    abstract fun batsmanDao(): BatsmanDAO
+    abstract fun runsDao(): RunsDao
 
     companion object{
         @Volatile

@@ -29,21 +29,34 @@
                 android:id="@+id/teaHeaderScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 / 0"
+                android:text="0 "
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"/>
 
+
         </LinearLayout>
         <TextView
-            android:id="@+id/teaHeaderCRR"
+            android:id="@+id/overs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CRR : 0.00"
+            android:text="Overs : "
             android:textSize="20sp"
             android:textStyle="bold"
+
+          android:layout_toLeftOf="@+id/oversValue"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/oversValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
             android:layout_marginRight="10sp"
             android:layout_alignParentEnd="true"
+
             android:textColor="@color/white"/>
 
 
@@ -55,11 +68,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/card1"
+            android:padding="30sp"
             android:layout_below="@+id/sb_firstRR">
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:id="@+id/sbBat1"
+                android:gravity="center"
                 android:hint="Enter Batsman1"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -68,32 +83,45 @@
                 android:text="0"
                 android:textSize="20sp"
                android:layout_toRightOf="@+id/sbBat1"
-                android:layout_marginRight="30sp"
+                android:layout_marginLeft="20sp"
                 android:gravity="center"
              />
-            <EditText
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/sbBat1ScoreAlert"
+                android:text="*"
+                android:textSize="20sp"
+                android:layout_toRightOf="@+id/sbBat1Score"
+                android:layout_marginLeft="3sp"
+                android:gravity="center"
+                />
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/sbBat2"
+                android:gravity="center"
                 android:layout_below="@+id/sbBat1"
                 android:hint="Enter Batsman2"/>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:text="10"
+                android:layout_height="18dp"
+                android:text="0"
                 android:textSize="20sp"
+                android:id="@+id/sbBat2Score"
                 android:layout_toRightOf="@+id/sbBat2"
                 android:layout_below="@+id/sbBat1Score"
-                android:layout_marginRight="30sp"
+                android:layout_marginLeft="20sp"
                 android:gravity="center"
               />
 
-            <EditText
+            <TextView
                 android:id="@+id/sbBowl1"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@+id/sbBat1Score"
+                android:gravity="center"
                 android:hint="Enter Bowler" />
             
 
@@ -127,6 +155,7 @@
             android:layout_toRightOf="@id/txt1"
             android:orientation="horizontal"
             android:scrollbars="horizontal"
+            android:layout_centerInParent="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             android:id="@+id/rvScoreBoard"

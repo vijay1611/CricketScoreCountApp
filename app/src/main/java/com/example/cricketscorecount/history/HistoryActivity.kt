@@ -38,7 +38,8 @@ class HistoryActivity : AppCompatActivity() {
             val hisData = dao.fetchAllDates()
 
             runOnUiThread{
-                adapter = historyAdapter(hisData)
+                val lastFive = hisData.reversed()
+                adapter = historyAdapter(lastFive)
                 recyclerview.adapter = adapter
             }
 
