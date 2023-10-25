@@ -72,8 +72,15 @@ class TeamDetailsActivity : AppCompatActivity() {
                     val intent = Intent(this, ScoreBoardActivity::class.java)
                     intent.putExtra("team1",team1)
                     intent.putExtra("team2",team2)
+                    intent.putExtra("overs",overs.toInt())
+            if(battingTeam=="Team1"){
+                intent.putExtra("battingBy",team1)
+            }else{
+                intent.putExtra("battingBy",team2)
+            }
+
                     startActivity(intent)
-                finish()
+                    finish()
 
 
 

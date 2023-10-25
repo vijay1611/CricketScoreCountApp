@@ -33,6 +33,16 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/teamHeaderTarget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Target: "
+                android:textSize="20sp"
+                android:layout_marginLeft="70sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
 
 
         </LinearLayout>
@@ -68,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/card1"
+            android:background="@color/secondary_color"
             android:padding="30sp"
             android:layout_below="@+id/sb_firstRR">
             <TextView
@@ -149,16 +160,15 @@
             android:textSize="20sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvScoreBoard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:layout_toRightOf="@id/txt1"
             android:orientation="horizontal"
             android:scrollbars="horizontal"
-            android:layout_centerInParent="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
-            android:id="@+id/rvScoreBoard"
             tools:listitem="@layout/ball_count">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -186,7 +196,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#1B5E20"
+                android:background="@color/green"
                 android:gravity="center"
                 android:orientation="horizontal">
                 <TextView
@@ -267,7 +277,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1B5E20"
+            android:background="@color/green"
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
