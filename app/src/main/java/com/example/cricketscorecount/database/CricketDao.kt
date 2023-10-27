@@ -12,7 +12,7 @@ interface CricketDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(team : Team)
 
-    @Query("SELECT * FROM `team_table`")
+    @Query("SELECT * FROM team_table")
     fun fetchAllDates(): List<Team>
 
 

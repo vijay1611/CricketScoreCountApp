@@ -8,33 +8,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
-import android.widget.Adapter
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cricketscorecount.DashboardActivity
 import com.example.cricketscorecount.R
 import com.example.cricketscorecount.database.BatsmanDAO
-import com.example.cricketscorecount.database.CricketDao
 import com.example.cricketscorecount.database.CricketDatabase
 import com.example.cricketscorecount.database.RunsDao
-import com.example.cricketscorecount.databinding.ActivityHistoryBinding
 import com.example.cricketscorecount.databinding.ActivityScoreBoardBinding
-import com.example.cricketscorecount.databinding.ActivityTeamDetailsBinding
-import com.example.cricketscorecount.history.historyAdapter
 import com.example.cricketscorecount.models.Batsman
 import com.example.cricketscorecount.models.Runs
-import com.example.cricketscorecount.models.Team
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
 
 class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
     lateinit var binding: ActivityScoreBoardBinding
-    lateinit var adapter: scoreAdapter
+    lateinit var adapter: ScoreAdapter
     private lateinit var database: CricketDatabase
     private lateinit var dao1: BatsmanDAO
     private lateinit var dao2: RunsDao
@@ -68,12 +59,13 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
        // recyclerview.layoutManager = LinearLayoutManager(this)
 
         database = CricketDatabase.getDatabase(context = this)
-        adapter = scoreAdapter(runsList)
+        adapter = ScoreAdapter(runsList)
         dao2 = database.runsDao()
         /*adapter = scoreAdapter(ArrayList())
         binding.rvScoreBoard.adapter = adapter*/
         scoreperballs()
 
+        nextInnings()
 
        dao1 = CricketDatabase.getDatabase(this).batsmanDao()
 
@@ -95,9 +87,13 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         binding.undo.setOnClickListener{
             undoFunction()
         }
+        binding.wicket.setOnClickListener{
+            showAddUserDialog(binding.sbBat1,true)
+        }
         totalOvers = intent.getIntExtra("overs",0)
         battingBy=intent.getStringExtra("battingBy")!!
-        binding.teamHeader.text = battingBy
+        binding.teamHeader.text = battingBy+" : "
+
 
 
 
@@ -109,8 +105,14 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         binding.score5.setOnClickListener(this)
         binding.score6.setOnClickListener(this)
         binding.wide.setOnClickListener(this)
+        binding.noBall.setOnClickListener(this)
+        binding.legByes.setOnClickListener(this)
+
+
 
     }
+
+
 
 
     fun swapFunction(){
@@ -122,28 +124,34 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         batsman=bat2
     }
     @SuppressLint("MissingInflatedId")
-    private fun showAddUserDialog(view: View) {
+    private fun showAddUserDialog(view: View,isWicket: Boolean =false) {
         var i=1
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_batsman, null)
 
         val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Add Batsman "+i)
+            .setTitle("Add new batsman")
             .setView(dialogView)
             .setPositiveButton("Save") { dialog, _ ->
                 val  name= dialogView.findViewById<EditText>(R.id.batman).text.toString()
-                when(view){
-                    binding.sbBat1->  batsman = name
-                    binding.sbBowl1 -> bowler = name
+                if(isWicket){
+                    wicketFunction(name)
+                }else{
+
+                    when(view){
+                        binding.sbBat1->  batsman = name
+                        binding.sbBowl1 -> bowler = name
+                    }
+
+                    (view as TextView).text=name
+                    val newUser = Batsman(name = name)
+                    // insertUser(newUser)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        dao1.insert(Batsman(name = name))
+
+                        Log.e("batting","inserted")
+                    }
                 }
 
-                (view as TextView).text=name
-                val newUser = Batsman(name = name)
-               // insertUser(newUser)
-                CoroutineScope(Dispatchers.IO).launch {
-                    dao1.insert(Batsman(name = name))
-
-                    Log.e("batting","inserted")
-                }
 
                 dialog.dismiss()
             }
@@ -161,7 +169,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         CoroutineScope(Dispatchers.IO).launch {
            // val hisData = dao2.fetchAllDates()
             runOnUiThread{
-                adapter = scoreAdapter(ArrayList())
+                adapter = ScoreAdapter(ArrayList())
                 adapter.notifyDataSetChanged()
                binding.rvScoreBoard.adapter = adapter
             }
@@ -184,6 +192,8 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
             binding.score5->runScore(5)
             binding.score6->runScore(6)
             binding.wide->wideFunction()
+            binding.noBall->noBallFunction()
+            binding.legByes->legByFunction()
 
 
 
@@ -200,22 +210,119 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         binding.teaHeaderScore.text=headScore.toString()+"/"+ wicket
         totalOvers = intent.getIntExtra("overs",0)
     }
-
-    fun undoFunction(){
-        runsList.removeAt(runsList.size-1)
-        if(balls==0){
-            balls=6
-            overs-=1
-        }
-        balls-=1
-
+    private fun noBallFunction() {
+        val run= Runs(runs = 1,ballCount = balls,isWide = false, wicket = false, isNoBall =true, isLegBy = false, batsman = batsman, bowler = bowler, battingTeam = team1, fieldingTeam = team2, over = overs)
+        runsList.add(run)
         binding.oversValue.text=overs.toString()+"."+balls.toString()
         adapter.setItem(runsList)
         headScore=  runsList.filter { it-> it.battingTeam==team1}.sumOf { it.runs }
-        binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2Score.text.toString()}.sumOf { it.runs }.toString()
-        binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1Score.text.toString()}.sumOf { it.runs }.toString()
         binding.teaHeaderScore.text=headScore.toString()+"/"+ wicket
         totalOvers = intent.getIntExtra("overs",0)
+    }
+    private fun legByFunction() {
+        val run= Runs(runs = 1,ballCount = balls,isWide = false, wicket = false, isNoBall =false, isLegBy = true, batsman = batsman, bowler = bowler, battingTeam = team1, fieldingTeam = team2, over = overs)
+        runsList.add(run)
+        balls += 1
+        if(balls==6){
+           // binding.sbBat1.text=binding.sbBat2.text
+            batsman=binding.sbBat2.text.toString()
+            binding.sbBat2.text=binding.sbBat1.text
+
+         //   binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2.text.toString()}.sumOf { it.runs }.toString()
+         //   binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
+        }else{
+            binding.sbBat1.text=binding.sbBat2.text
+            binding.sbBat2.text=batsman
+           // binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2.text.toString()}.sumOf { it.runs }.toString()
+           // binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
+        }
+        if(balls==6) {
+            overs+=1
+            balls=0
+        }
+        binding.oversValue.text=overs.toString()+"."+balls.toString()
+        adapter.setItem(runsList)
+        headScore=  runsList.filter { it-> it.battingTeam==team1}.sumOf { it.runs }
+        binding.teaHeaderScore.text=headScore.toString()+"/"+ wicket
+        totalOvers = intent.getIntExtra("overs",0)
+    }
+    private fun wicketFunction(name:String) {
+        val run= Runs(runs = 0,ballCount = balls,isWide =false, wicket = true, isNoBall =false, isLegBy = false, batsman = batsman, bowler = bowler, battingTeam = team1, fieldingTeam = team2, over = overs)
+        runsList.add(run)
+        balls += 1
+
+        if(balls==6){
+            binding.sbBat1.text=binding.sbBat2.text
+            batsman=binding.sbBat2.text.toString()
+            binding.sbBat2.text=name
+            batsman=name
+            binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2.text.toString()}.sumOf { it.runs }.toString()
+            binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
+        }else{
+            binding.sbBat1.text=name
+            batsman=name
+            binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2.text.toString()}.sumOf { it.runs }.toString()
+            binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
+        }
+        if(balls==6) {
+            overs+=1
+            balls=0
+        }
+        binding.oversValue.text=overs.toString()+"."+balls.toString()
+        adapter.setItem(runsList)
+        headScore=  runsList.filter { it-> it.battingTeam==team1}.sumOf { it.runs }
+        wicket=runsList.filter { it.wicket }.size
+        binding.teaHeaderScore.text=headScore.toString()+"/"+ wicket
+        totalOvers = intent.getIntExtra("overs",0)
+
+    }
+
+    private fun undoFunction(){
+        if(runsList[runsList.size-1].wicket){
+            runsList.removeAt(runsList.size - 1)
+            binding.sbBat1.text=runsList[runsList.size-1].batsman
+            binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
+        }else {
+            var manChange: Boolean = false
+            if (runsList[runsList.size - 1].runs % 2 != 0) {
+                manChange = true
+            }
+            runsList.removeAt(runsList.size - 1)
+            if (balls == 0) {
+                balls = 6
+                overs -= 1
+            }
+            balls -= 1
+
+            binding.oversValue.text = overs.toString() + "." + balls.toString()
+            adapter.setItem(runsList)
+            headScore = runsList.filter { it -> it.battingTeam == team1 }.sumOf { it.runs }
+            if (manChange) {
+                val bat2: String = binding.sbBat2.text.toString()
+                binding.sbBat1.text = bat2
+                binding.sbBat2.text = batsman
+                binding.sbBat2Score.text =
+                    runsList.filter { it -> it.batsman == batsman }.sumOf { it.runs }.toString()
+                binding.sbBat1Score.text =
+                    runsList.filter { it -> it.batsman == bat2 }.sumOf { it.runs }.toString()
+                batsman = bat2
+            } else {
+                binding.sbBat2Score.text =
+                    runsList.filter { it -> it.batsman == binding.sbBat2.text.toString() }
+                        .sumOf { it.runs }.toString()
+                binding.sbBat1Score.text =
+                    runsList.filter { it -> it.batsman == binding.sbBat1.text.toString() }
+                        .sumOf { it.runs }.toString()
+            }
+            binding.teaHeaderScore.text = headScore.toString() + "/" + wicket
+            totalOvers = intent.getIntExtra("overs", 0)
+        }
+    }
+
+    private fun nextInnings(){
+        if(overs==totalOvers){
+            runsList.clear()
+        }
     }
 
     private fun runScore(num:Int){

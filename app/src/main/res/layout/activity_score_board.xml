@@ -80,6 +80,7 @@
             android:id="@+id/card1"
             android:background="@color/secondary_color"
             android:padding="30sp"
+            android:layout_marginVertical="15dp"
             android:layout_below="@+id/sb_firstRR">
             <TextView
                 android:layout_width="wrap_content"
@@ -112,11 +113,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/sbBat2"
                 android:gravity="center"
+                android:layout_marginVertical="5dp"
                 android:layout_below="@+id/sbBat1"
                 android:hint="Enter Batsman2"/>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="18dp"
+                android:layout_height="22dp"
                 android:text="0"
                 android:textSize="20sp"
                 android:id="@+id/sbBat2Score"
@@ -309,6 +311,18 @@
                 android:layout_height="wrap_content"
                 android:text="LB"
                 android:id="@+id/legByes"
+                android:textColor="#1B5E20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_margin="5sp"
+                android:background="@drawable/score_rectancle"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WICKET"
+                android:id="@+id/wicket"
                 android:textColor="#1B5E20"
                 android:layout_gravity="center"
                 android:gravity="center"
