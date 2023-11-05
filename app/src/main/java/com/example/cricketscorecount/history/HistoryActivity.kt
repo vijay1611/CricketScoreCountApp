@@ -17,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HistoryActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity(),historyClickListener {
     private lateinit var database: CricketDatabase
     private lateinit var dao: CricketDao
     lateinit var binding: ActivityHistoryBinding
@@ -39,11 +39,15 @@ class HistoryActivity : AppCompatActivity() {
 
             runOnUiThread{
                 val lastFive = hisData.reversed()
-                adapter = historyAdapter(lastFive)
+                adapter = historyAdapter(lastFive,this@HistoryActivity)
                 recyclerview.adapter = adapter
             }
 
         }
+
+    }
+
+    override fun showSummary(team1: String, team2: String) {
 
     }
 }

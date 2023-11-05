@@ -1,6 +1,7 @@
 package com.example.cricketscorecount.ScoreBoardactivity
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.cricketscorecount.DashboardActivity
 import com.example.cricketscorecount.R
@@ -47,7 +49,8 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
     var batsman : String = ""
     var over:Double=0.0
 
-    var runsList:ArrayList<Runs> = ArrayList<Runs>()
+    var runsList:ArrayList<Runs> = arrayListOf<Runs>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +60,9 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         setContentView(binding.root)
         val recyclerview =  binding.rvScoreBoard
        // recyclerview.layoutManager = LinearLayoutManager(this)
-
+        totalOvers = intent.getIntExtra("overs", 0)
+        team1 = intent.getStringExtra("team1")!!
+        team2 = intent.getStringExtra("team2")!!
         database = CricketDatabase.getDatabase(context = this)
         adapter = ScoreAdapter(runsList)
         dao2 = database.runsDao()
@@ -65,7 +70,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         binding.rvScoreBoard.adapter = adapter*/
         scoreperballs()
 
-        nextInnings()
+       // nextInnings()
 
        dao1 = CricketDatabase.getDatabase(this).batsmanDao()
 
@@ -176,15 +181,16 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         }
     }
 
-    private fun insertRun(runs: Runs) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dao2.insert(runs)
-        }
-    }
+//    private fun insertRun(runs: Runs) {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            dao2.insert(runs)
+//        }
+//    }
 
     override fun onClick(v: View?) {
-      //  if(CheckAllFields()){
+        if(checkAllFields()){
         when(v){
+
             binding.score1->runScore(1)
             binding.score2->runScore(2)
             binding.score3->runScore(3)
@@ -197,7 +203,10 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
 
 
 
-    }//}
+    }
+            nextInnings()
+
+        }
 
 }
 
@@ -239,6 +248,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         if(balls==6) {
             overs+=1
             balls=0
+
         }
         binding.oversValue.text=overs.toString()+"."+balls.toString()
         adapter.setItem(runsList)
@@ -315,21 +325,40 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
                         .sumOf { it.runs }.toString()
             }
             binding.teaHeaderScore.text = headScore.toString() + "/" + wicket
-            totalOvers = intent.getIntExtra("overs", 0)
+
         }
     }
 
     private fun nextInnings(){
-        if(overs==totalOvers){
-            runsList.clear()
+        Log.e("nextScreen","nextscreen success "+overs+"  "+balls +" total overs: "+totalOvers)
+        Log.e("nextScreen","nextscreen success "+(overs==totalOvers&&balls==5))
+        if(overs==(totalOvers)&&balls==0){
+            Log.e("****","nextscreen success "+(overs==totalOvers&&balls==5))
+            winningStatus("First Innings Over...!!!!")
+            Toast.makeText(applicationContext,"First innings completed",Toast.LENGTH_SHORT).show()
+
+            val itemList = arrayListOf(
+                Runs(),
+                Runs(),
+                Runs()
+            )
+          CoroutineScope(Dispatchers.IO).launch {
+              Log.e("Data stored","stored successfully111111")
+              val hisData = dao2.insertRuns(*(runsList.toList()).toTypedArray())
+              Log.e("Data stored", "stored successfully222222    $hisData")
+
+           }.invokeOnCompletion {
+              runsList.clear()
+          }
+
+
         }
     }
 
     private fun runScore(num:Int){
             //binding.sbBat1Score1.visibility=View.VISIBLE
-
-            if(num%2!=0){
-                val run= Runs(runs = num,ballCount = balls,isWide = false, wicket = false, isNoBall =false, isLegBy = false, batsman = batsman, bowler = bowler, battingTeam = team1, fieldingTeam = team2, over = overs)
+        if(num%2!=0){
+            val run= Runs(runs = num,ballCount = balls,isWide = false, wicket = false, isNoBall =false, isLegBy = false, batsman = batsman, bowler = bowler, battingTeam = team1, fieldingTeam = team2, over = overs)
                 runsList.add(run)
                 val bat2:String=binding.sbBat2.text.toString()
                 binding.sbBat1.text=bat2
@@ -344,6 +373,8 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
                 }
 
             }else{
+               // nextInnings()
+
                 val run= Runs(runs = num,ballCount = balls,isWide = false, wicket = false, isNoBall =false, isLegBy = false, batsman = batsman, bowler = bowler, battingTeam = team1, fieldingTeam = team2, over = overs)
                 runsList.add(run)
                 adapter.setItem( runsList)
@@ -360,21 +391,26 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         binding.teaHeaderScore.text=headScore.toString()+"/"+ wicket
         totalOvers = intent.getIntExtra("overs",0)
         }
-    fun CheckAllFields(): Boolean {
-        if (binding.sbBat1.length() == 0) {
+    fun checkAllFields(): Boolean {
+        if (binding.sbBat1!!.length()===0) {
             binding.sbBat1!!.setError("Please enter the Team1")
             return false
         }
-        if (binding.sbBat2!!.length() === 0) {
+        else if (binding.sbBat2!!.length() === 0) {
             binding.sbBat1!!.setError("please enter the team2")
             return false
         }
-        if (binding.sbBowl1!!.length() === 0) {
+        else if (binding.sbBowl1!!.length() === 0) {
             binding.sbBowl1!!.setError("Email is required")
             return false
+        }else {
+            // after all validation return true.
+            binding.sbBat1!!.error=null
+            binding.sbBat2!!.error=null
+            binding.sbBowl1!!.error=null
+            return true
+
         }
-        // after all validation return true.
-        return true
     }
     fun winningStatus(res:String){
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_batsman, null)
@@ -382,7 +418,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
             .setTitle("Result")
             .setMessage(res)
             .setPositiveButton("ok") { dialog, _ ->
-                startActivity(Intent(ScoreBoardActivity@this,DashboardActivity::class.java))
+
                 dialog.dismiss()
             }
             .setNegativeButton("wait") { dialog, _ ->

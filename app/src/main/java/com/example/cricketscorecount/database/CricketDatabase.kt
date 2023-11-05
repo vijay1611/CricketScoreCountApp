@@ -9,12 +9,14 @@ import com.example.cricketscorecount.models.Batsman
 import com.example.cricketscorecount.models.Runs
 import com.example.cricketscorecount.models.Team
 
-@Database(entities = [Batsman::class,Team::class,Runs::class],version=1, exportSchema = false)
+@Database(entities = [Batsman::class,Team::class,Runs::class,Item::class],version=1, exportSchema = false)
 abstract class CricketDatabase : RoomDatabase(){
 
     abstract fun getCricketDao(): CricketDao
     abstract fun batsmanDao(): BatsmanDAO
     abstract fun runsDao(): RunsDao
+
+    abstract fun itemDao():ItemDao
 
     companion object{
         @Volatile

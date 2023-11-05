@@ -8,9 +8,9 @@ import com.example.cricketscorecount.models.Runs
 
 @Dao
 interface RunsDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(runs : Runs)
+    @Insert
+    fun insertRuns(vararg runs : Runs)
 
     @Query("SELECT * FROM `runs_table`")
-    fun fetchAllDates(): List<Runs>
+    fun fetchAllDates(): Runs
 }

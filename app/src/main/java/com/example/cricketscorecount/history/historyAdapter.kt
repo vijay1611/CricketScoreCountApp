@@ -10,7 +10,7 @@ import com.example.cricketscorecount.R
 import com.example.cricketscorecount.databinding.ActivityHistoryBinding
 import com.example.cricketscorecount.models.Team
 
-class historyAdapter(private val mList : List<Team>): RecyclerView.Adapter<historyAdapter.historyViewHolder>() {
+class historyAdapter(private val mList : List<Team>, val clickListener: historyClickListener): RecyclerView.Adapter<historyAdapter.historyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): historyViewHolder {
@@ -26,6 +26,10 @@ class historyAdapter(private val mList : List<Team>): RecyclerView.Adapter<histo
         holder.team1.text=ItemsViewModel.team1
         holder.team2.text=ItemsViewModel.team2
         holder.overs.text=ItemsViewModel.overs.toString()
+        holder.itemView.setOnClickListener{
+            clickListener.showSummary(ItemsViewModel.team1!!,ItemsViewModel.team2!!)
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -38,4 +42,6 @@ class historyAdapter(private val mList : List<Team>): RecyclerView.Adapter<histo
         val team2: TextView = ItemView.findViewById(R.id.team2)
         val overs: TextView = ItemView.findViewById(R.id.overs1)
     }
+
+
 }
