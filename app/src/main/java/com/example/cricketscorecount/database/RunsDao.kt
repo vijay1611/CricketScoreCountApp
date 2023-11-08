@@ -13,4 +13,7 @@ interface RunsDao {
 
     @Query("SELECT * FROM `runs_table`")
     fun fetchAllDates(): Runs
+
+   @Query("SELECT * FROM `runs_table` where battingTeam= :team1 and fieldingTeam= :team2")
+    fun batsmanRun(team1:String,team2:String):List<Runs>
 }

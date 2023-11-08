@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.cricketscorecount.ScoreBoardactivity.DATABASE_NAME
+import com.example.cricketscorecount.ScoreBoardactivity.PlayersDetails
 import com.example.cricketscorecount.models.Batsman
 import com.example.cricketscorecount.models.Runs
 import com.example.cricketscorecount.models.Team

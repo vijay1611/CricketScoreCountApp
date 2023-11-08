@@ -48,7 +48,8 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
      var bowler : String = ""
     var batsman : String = ""
     var over:Double=0.0
-
+    var isNextInnings:Boolean=true
+    var firstInningsScore : Int =0
     var runsList:ArrayList<Runs> = arrayListOf<Runs>()
 
 
@@ -102,7 +103,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
 
 
 
-
+        binding.score0.setOnClickListener(this)
         binding.score1.setOnClickListener(this)
         binding.score2.setOnClickListener(this)
         binding.score3.setOnClickListener(this)
@@ -190,7 +191,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
     override fun onClick(v: View?) {
         if(checkAllFields()){
         when(v){
-
+            binding.score0->runScore(0)
             binding.score1->runScore(1)
             binding.score2->runScore(2)
             binding.score3->runScore(3)
@@ -332,16 +333,16 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
     private fun nextInnings(){
         Log.e("nextScreen","nextscreen success "+overs+"  "+balls +" total overs: "+totalOvers)
         Log.e("nextScreen","nextscreen success "+(overs==totalOvers&&balls==5))
-        if(overs==(totalOvers)&&balls==0){
+        if(overs==(totalOvers)&&balls==0&&isNextInnings){
             Log.e("****","nextscreen success "+(overs==totalOvers&&balls==5))
             winningStatus("First Innings Over...!!!!")
             Toast.makeText(applicationContext,"First innings completed",Toast.LENGTH_SHORT).show()
-
-            val itemList = arrayListOf(
-                Runs(),
-                Runs(),
-                Runs()
-            )
+            firstInningsScore=runsList.sumOf { it.runs }
+//            val itemList = arrayListOf(
+//                Runs(),
+//                Runs(),
+//                Runs()
+//            )
           CoroutineScope(Dispatchers.IO).launch {
               Log.e("Data stored","stored successfully111111")
               val hisData = dao2.insertRuns(*(runsList.toList()).toTypedArray())
@@ -350,8 +351,42 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
            }.invokeOnCompletion {
               runsList.clear()
           }
+            binding.sbBat1.text=""
+            binding.sbBat2.text=""
+            binding.sbBat2Score.text= ""
+            binding.sbBat1Score.text= ""
+            binding.overs.text=""
+        overs=0
+            isNextInnings=false
+            balls==0
+            var temp=team1
+            team1=team2
+            team2=temp
+        }
 
+        else if(overs==(totalOvers)&&balls==0 && !isNextInnings){
+            if(firstInningsScore<= runsList.sumOf { it.runs }) {
+                Toast.makeText(applicationContext,"Match Over...$team2 won",Toast.LENGTH_SHORT).show()
+                winningStatus("$team2 won the match")
+                CoroutineScope(Dispatchers.IO).launch {
+                    Log.e("Data stored","stored successfully111111")
+                    val hisData = dao2.insertRuns(*(runsList.toList()).toTypedArray())
+                    Log.e("Data stored", "stored successfully222222    $hisData")
 
+                }.invokeOnCompletion {
+                    runsList.clear()
+                }
+            }
+            CoroutineScope(Dispatchers.IO).launch {
+                Log.e("Data stored","stored successfully111111")
+                val hisData = dao2.insertRuns(*(runsList.toList()).toTypedArray())
+                Log.e("Data stored", "stored successfully222222    $hisData")
+
+            }.invokeOnCompletion {
+                runsList.clear()
+            }
+            Toast.makeText(applicationContext,"Match Over",Toast.LENGTH_SHORT).show()
+            winningStatus("$team1 won the match")
         }
     }
 

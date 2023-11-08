@@ -1,16 +1,14 @@
 package com.example.cricketscorecount.history
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cricketscorecount.R
-import com.example.cricketscorecount.databinding.ActivityHistoryBinding
 import com.example.cricketscorecount.models.Team
 
-class historyAdapter(private val mList : List<Team>, val clickListener: historyClickListener): RecyclerView.Adapter<historyAdapter.historyViewHolder>() {
+class historyAdapter( private var mList: List<Team>, val clickListener: historyClickListener): RecyclerView.Adapter<historyAdapter.historyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): historyViewHolder {
@@ -18,6 +16,7 @@ class historyAdapter(private val mList : List<Team>, val clickListener: historyC
             .inflate(R.layout.itemhistory, parent, false)
 
         return historyViewHolder(view)
+
     }
 
 
@@ -27,13 +26,19 @@ class historyAdapter(private val mList : List<Team>, val clickListener: historyC
         holder.team2.text=ItemsViewModel.team2
         holder.overs.text=ItemsViewModel.overs.toString()
         holder.itemView.setOnClickListener{
-            clickListener.showSummary(ItemsViewModel.team1!!,ItemsViewModel.team2!!)
+            clickListener.showSummary(ItemsViewModel)
         }
 
     }
 
     override fun getItemCount(): Int {
-        return minOf( mList.size,5)
+       // return minOf( mList.size,5)
+        return mList.size
+    }
+
+    fun setvalue(hisData: List<Team>) {
+        mList=hisData
+        notifyDataSetChanged()
     }
 
 

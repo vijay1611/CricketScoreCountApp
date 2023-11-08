@@ -1,5 +1,7 @@
 package com.example.cricketscorecount.history
 
+import com.example.cricketscorecount.models.Team
+
 interface historyClickListener {
-    fun showSummary(team1:String,team2:String)
+    fun showSummary(team: Team)
 }
