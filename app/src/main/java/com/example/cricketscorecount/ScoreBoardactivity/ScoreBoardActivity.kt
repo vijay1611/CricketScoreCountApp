@@ -235,18 +235,24 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         balls += 1
         if(balls==6){
            // binding.sbBat1.text=binding.sbBat2.text
-            batsman=binding.sbBat2.text.toString()
-            binding.sbBat2.text=binding.sbBat1.text
-
-         //   binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2.text.toString()}.sumOf { it.runs }.toString()
-         //   binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
-        }else{
+            var tempBat = binding.sbBat1.text
             binding.sbBat1.text=binding.sbBat2.text
-            binding.sbBat2.text=batsman
+            binding.sbBat2.text=tempBat
+            var tempScore= binding.sbBat2Score.text
+            binding.sbBat2Score.text= binding.sbBat1Score.text
+            binding.sbBat1Score.text= tempScore
+
            // binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2.text.toString()}.sumOf { it.runs }.toString()
-           // binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
+        //    binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
+        }else{
+            var tempBat = binding.sbBat2.text
+            binding.sbBat1.text=binding.sbBat2.text
+            binding.sbBat2.text= tempBat
+           // binding.sbBat2Score.text= runsList.filter { it-> it.batsman==binding.sbBat2.text.toString()}.sumOf { it.runs }.toString()
+          //  binding.sbBat1Score.text= runsList.filter { it-> it.batsman==binding.sbBat1.text.toString()}.sumOf { it.runs }.toString()
         }
         if(balls==6) {
+            binding.sbBowl1.text=""
             overs+=1
             balls=0
 
@@ -261,6 +267,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         val run= Runs(runs = 0,ballCount = balls,isWide =false, wicket = true, isNoBall =false, isLegBy = false, batsman = batsman, bowler = bowler, battingTeam = team1, fieldingTeam = team2, over = overs)
         runsList.add(run)
         balls += 1
+
 
         if(balls==6){
             binding.sbBat1.text=binding.sbBat2.text
@@ -278,6 +285,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
         if(balls==6) {
             overs+=1
             balls=0
+            binding.sbBowl1.text=""
         }
         binding.oversValue.text=overs.toString()+"."+balls.toString()
         adapter.setItem(runsList)
@@ -338,6 +346,8 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
             winningStatus("First Innings Over...!!!!")
             Toast.makeText(applicationContext,"First innings completed",Toast.LENGTH_SHORT).show()
             firstInningsScore=runsList.sumOf { it.runs }
+            binding.teamHeaderTarget.visibility=View.VISIBLE
+            binding.teamHeaderTarget.text=firstInningsScore.toString()
 //            val itemList = arrayListOf(
 //                Runs(),
 //                Runs(),
@@ -403,6 +413,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
                 batsman=bat2
                 balls += 1
                 if(balls==6) {
+                    binding.sbBowl1.text=""
                     overs+=1
                     balls=0
                 }
@@ -416,6 +427,7 @@ class ScoreBoardActivity : AppCompatActivity(),OnClickListener {
                 binding.sbBat1Score.text= runsList.filter { it-> it.batsman==batsman}.sumOf { it.runs }.toString()
                 balls += 1
                 if(balls==6) {
+                    binding.sbBowl1.text=""
                     overs+=1
                     balls=0
                 }

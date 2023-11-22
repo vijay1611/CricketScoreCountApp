@@ -18,7 +18,7 @@ data class Runs (
     var over:Int=0,
     var battingTeam:String= "",
     var fieldingTeam:String="",
-    var totalOvers:Int=0
+    var totalOvers:Int=0,
 //    var batsman:String
 )
 

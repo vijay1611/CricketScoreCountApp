@@ -88,8 +88,9 @@ class SummaryActivity : AppCompatActivity() {
                // val lastFive = hisData.reversed()
                // adapter = SummaryAdapte(lastFive,this@HistoryActivity)
 
-                team1Score.text = batRun1.sumOf { it.runs }.toString()
-                team2Score.text = batRun2.sumOf { it.runs }.toString()
+                team1Score.text = batRun1.sumOf { it.runs }.toString() +"/"+batRun1.distinctBy{ it.wicket }.size
+                team2Score.text = batRun2.sumOf { it.runs }.toString() +"/"+batRun2.distinctBy { it.wicket }.size
+
                 adapter1.setvalue(team1Final)
                adapter2.setvalue(team2Final)
 
